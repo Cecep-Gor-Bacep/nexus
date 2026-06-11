@@ -1,35 +1,36 @@
-"use client"
+"use client";
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
-import { DotsThreeOutlineIcon } from "@phosphor-icons/react"
+} from "@/components/ui/sidebar";
+import { DotsThreeOutlineIcon } from "@phosphor-icons/react";
 
 export function NavMain({
   items,
 }: {
   items: {
-    title: string
-    url: string
-    icon?: React.ReactNode
-    isActive?: boolean
+    title: string;
+    url: string;
+    icon?: React.ReactNode;
+    isActive?: boolean;
     items?: {
-      title: string
-      url: string
-    }[]
-  }[]
+      title: string;
+      url?: string;
+      onClick?: () => void;
+    }[];
+  }[];
 }) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarGroup>
@@ -39,8 +40,7 @@ export function NavMain({
             <SidebarMenuItem>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-                  {item.title}{" "}
-                  <DotsThreeOutlineIcon className="ml-auto" />
+                  {item.title} <DotsThreeOutlineIcon className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               {item.items?.length ? (
@@ -49,11 +49,22 @@ export function NavMain({
                   align={isMobile ? "end" : "start"}
                   className="min-w-56 rounded-lg"
                 >
-                  {item.items.map((item) => (
-                    <DropdownMenuItem asChild key={item.title}>
-                      <a href={item.url}>{item.title}</a>
-                    </DropdownMenuItem>
-                  ))}
+                  {item.items.map((subItem) =>
+                    // Cek apakah item memiliki fungsi onClick
+                    subItem.onClick ? (
+                      <DropdownMenuItem
+                        key={subItem.title}
+                        onClick={subItem.onClick}
+                        className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive" // Efek merah saat di-hover
+                      >
+                        <span>{subItem.title}</span>
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem asChild key={subItem.title}>
+                        <a href={subItem.url}>{subItem.title}</a>
+                      </DropdownMenuItem>
+                    ),
+                  )}
                 </DropdownMenuContent>
               ) : null}
             </SidebarMenuItem>
@@ -61,5 +72,5 @@ export function NavMain({
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

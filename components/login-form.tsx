@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -12,7 +12,8 @@ import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
-
+// import bcrypt from "bcrypt";
+import { hashedPassword } from "@/app/api/login";
 
 export function LoginForm({
   className,
@@ -23,15 +24,19 @@ export function LoginForm({
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hashedPasswordValue, setHashedPasswordValue] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
 
+    // setHashedPasswordValue(await hashedPassword(password));
+
     const dummyEmail = `${username}@nexus.local`;
     const {data, error} = await supabase.auth.signInWithPassword({
       email: dummyEmail,
+      // password: hashedPasswordValue,
       password: password,
     });
 
