@@ -27,11 +27,9 @@ export function ResetPasswordForm({
     setLoading(true);
     setMessage(null);
 
-    // Karena sistem pendaftaran menggunakan dummyEmail, kita gunakan format yang sama
     const dummyEmail = `${username}@nexus.local`;
     
     const { error } = await supabase.auth.resetPasswordForEmail(dummyEmail, {
-      // URL tujuan setelah user mengklik link reset dari email
       redirectTo: `${window.location.origin}/update-password`,
     });
 
