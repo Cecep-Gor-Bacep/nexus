@@ -9,8 +9,10 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+
+const supabase = createClient();
 
 export function SignupForm({
   className,
@@ -30,16 +32,16 @@ export function SignupForm({
     setError(null);
 
     const dummyEmail = `${username}@nexus.local`;
-    const { data, error } = await supabase.auth.signUp({
-      email: dummyEmail,
-      password: password,
-    });
-
+    
     if (password !== confirmPassword) {
       setError("Password dan Confirm Password tidak cocok!");
       setLoading(false);
       return;
     }
+    const { data, error } = await supabase.auth.signUp({
+      email: dummyEmail,
+      password: password,
+    });
 
     if (error) {
       setError("Terjadi kesalahan saat membuat akun!");

@@ -89,29 +89,6 @@ tsconfig.json
 <files>
 This section contains the contents of the repository's files.
 
-<file path="app/api/login.tsx">
-"use server";
-
-// import { supabase } from "@/lib/supabase";
-import bcrypt from "bcrypt";
-
-// export async function login(request: Request) {
-//   const { username, password } = await request.json();
-//   const hashedPassword = await bcrypt.hash(password, 0);
-//   return NextResponse.json({ username, password: hashedPassword });
-// }
-
-export async function hashedPassword(password: string) {
-  return bcrypt.hash(password, 0);
-}
-
-// client - side hashing is undoable
-// this is useless
-// refer to https://www.reddit.com/r/Supabase/comments/11bgm4t/user_password_is_revelead_on_login_or_signup/
-// fs can't be used in client - side code, so we can't use bcrypt in the server - side code either
-// implement supabase MFA 2FA instead
-</file>
-
 <file path=".gitignore">
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
@@ -154,6 +131,29 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+</file>
+
+<file path="app/api/login.tsx">
+"use server";
+
+// import { supabase } from "@/lib/supabase";
+import bcrypt from "bcrypt";
+
+// export async function login(request: Request) {
+//   const { username, password } = await request.json();
+//   const hashedPassword = await bcrypt.hash(password, 0);
+//   return NextResponse.json({ username, password: hashedPassword });
+// }
+
+export async function hashedPassword(password: string) {
+  return bcrypt.hash(password, 0);
+}
+
+// client - side hashing is undoable
+// this is useless
+// refer to https://www.reddit.com/r/Supabase/comments/11bgm4t/user_password_is_revelead_on_login_or_signup/
+// fs can't be used in client - side code, so we can't use bcrypt in the server - side code either
+// implement supabase MFA 2FA instead
 </file>
 
 <file path="app/dashboard/page.tsx">
@@ -212,62 +212,6 @@ export default function Page() {
 }
 </file>
 
-<file path="app/login/page.tsx">
-"use client";
-
-import { LoginForm } from "@/components/login-form"
-import { RowsIcon } from "@phosphor-icons/react"
-import Image from "next/image"
-
-export default function LoginPage() {
-  return (
-    <div className="flex flex-col min-h-svh p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <a href="/login" className="flex items-center gap-2 font-medium">
-            <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <RowsIcon className="size-4" />
-            </div>
-            Acme Inc.
-          </a>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
-            <LoginForm />
-          </div>
-        </div>
-    </div>
-  )
-}
-</file>
-
-<file path="app/signup/page.tsx">
-"use client"
-
-import { SignupForm } from "@/components/signup-form"
-import { RowsIcon } from "@phosphor-icons/react"
-import Image from "next/image"
-
-export default function SignupPage() {
-  return (
-    <div className="flex flex-col min-h-svh p-6 md:p-10">
-        <div className="flex justify-center gap-2 md:justify-start">
-          <a href="#" className="flex items-center gap-2 font-medium">
-            <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-              <RowsIcon className="size-4" />
-            </div>
-            Acme Inc.
-          </a>
-        </div>
-        <div className="flex flex-1 items-center justify-center">
-          <div className="w-full max-w-xs">
-            <SignupForm />
-          </div>
-        </div>
-    </div>
-  )
-}
-</file>
-
 <file path="components.json">
 {
   "$schema": "https://ui.shadcn.com/schema.json",
@@ -295,379 +239,6 @@ export default function SignupPage() {
   "registries": {
     "@loading-ui": "https://loading-ui.com/r/{name}.json"
   }
-}
-</file>
-
-<file path="components/app-sidebar.tsx">
-"use client"
-
-import * as React from "react"
-
-import { NavMain } from "@/components/nav-main"
-import { SidebarOptInForm } from "@/components/sidebar-opt-in-form"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarRail,
-} from "@/components/ui/sidebar"
-import { RowsIcon } from "@phosphor-icons/react"
-
-// This is sample data.
-const data = {
-  navMain: [
-    {
-      title: "Getting Started",
-      url: "#",
-      items: [
-        {
-          title: "Installation",
-          url: "#",
-        },
-        {
-          title: "Project Structure",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Build Your Application",
-      url: "#",
-      items: [
-        {
-          title: "Routing",
-          url: "#",
-        },
-        {
-          title: "Data Fetching",
-          url: "#",
-          isActive: true,
-        },
-        {
-          title: "Rendering",
-          url: "#",
-        },
-        {
-          title: "Caching",
-          url: "#",
-        },
-        {
-          title: "Styling",
-          url: "#",
-        },
-        {
-          title: "Optimizing",
-          url: "#",
-        },
-        {
-          title: "Configuring",
-          url: "#",
-        },
-        {
-          title: "Testing",
-          url: "#",
-        },
-        {
-          title: "Authentication",
-          url: "#",
-        },
-        {
-          title: "Deploying",
-          url: "#",
-        },
-        {
-          title: "Upgrading",
-          url: "#",
-        },
-        {
-          title: "Examples",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "API Reference",
-      url: "#",
-      items: [
-        {
-          title: "Components",
-          url: "#",
-        },
-        {
-          title: "File Conventions",
-          url: "#",
-        },
-        {
-          title: "Functions",
-          url: "#",
-        },
-        {
-          title: "next.config.js Options",
-          url: "#",
-        },
-        {
-          title: "CLI",
-          url: "#",
-        },
-        {
-          title: "Edge Runtime",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Architecture",
-      url: "#",
-      items: [
-        {
-          title: "Accessibility",
-          url: "#",
-        },
-        {
-          title: "Fast Refresh",
-          url: "#",
-        },
-        {
-          title: "Next.js Compiler",
-          url: "#",
-        },
-        {
-          title: "Supported Browsers",
-          url: "#",
-        },
-        {
-          title: "Turbopack",
-          url: "#",
-        },
-      ],
-    },
-  ],
-}
-
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  return (
-    <Sidebar {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <RowsIcon className="size-4" />
-                </div>
-                <div className="flex flex-col gap-0.5 leading-none">
-                  <span className="font-medium">Documentation</span>
-                  <span className="">v1.0.0</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
-      </SidebarContent>
-      <SidebarFooter>
-        <div className="p-1">
-          <SidebarOptInForm />
-        </div>
-      </SidebarFooter>
-      <SidebarRail />
-    </Sidebar>
-  )
-}
-</file>
-
-<file path="components/login-form.tsx">
-// "use client";
-
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { supabase } from "@/lib/supabase";
-// import bcrypt from "bcrypt";
-import { hashedPassword } from "@/app/api/login";
-
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"form">) {
-  const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [hashedPasswordValue, setHashedPasswordValue] = useState("");
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    // setHashedPasswordValue(await hashedPassword(password));
-
-    const dummyEmail = `${username}@nexus.local`;
-    const {data, error} = await supabase.auth.signInWithPassword({
-      email: dummyEmail,
-      // password: hashedPasswordValue,
-      password: password,
-    });
-
-    if(error) {
-      setError("Username atau Password salah!");
-      setLoading(false);
-      return;
-    }
-
-    if(data.user) {
-      router.push("/dashboard");
-    }
-  }
-
-  return (
-    <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={handleLogin}>
-      <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Login to your account</h1>
-          <p className="text-sm text-balance text-muted-foreground">
-            Enter your Username below to login to your account
-          </p>
-        </div>
-
-        {error && (
-          <div className="text-sm font-medium text-red-500 bg-red-500/10 p-2 rounded">
-            {error}
-          </div>
-        )}
-        
-        <Field>
-          <FieldLabel htmlFor="username">Username</FieldLabel>
-          <Input
-            id="username"
-            type="text"
-            placeholder="Username"
-            required
-            className="bg-background"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </Field>
-        <Field>
-          <div className="flex items-center">
-            <FieldLabel htmlFor="password">Password</FieldLabel>
-            <a
-              href="#"
-              className="ml-auto text-sm underline-offset-4 hover:underline"
-            >
-              Forgot your password?
-            </a>
-          </div>
-          <Input
-            id="password"
-            type="password"
-            required
-            className="bg-background"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Field>
-        <Field>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Authenticating..." : "Login"}
-          </Button>
-        </Field>
-        
-        <Field>
-          <FieldDescription className="text-center">
-            Don&apos;t have an account?{" "}
-            <a href="/signup" className="underline underline-offset-4">
-              Sign up
-            </a>
-          </FieldDescription>
-        </Field>
-      </FieldGroup>
-    </form>
-  );
-}
-</file>
-
-<file path="components/nav-main.tsx">
-"use client"
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import {
-  SidebarGroup,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "@/components/ui/sidebar"
-import { DotsThreeOutlineIcon } from "@phosphor-icons/react"
-
-export function NavMain({
-  items,
-}: {
-  items: {
-    title: string
-    url: string
-    icon?: React.ReactNode
-    isActive?: boolean
-    items?: {
-      title: string
-      url: string
-    }[]
-  }[]
-}) {
-  const { isMobile } = useSidebar()
-
-  return (
-    <SidebarGroup>
-      <SidebarMenu>
-        {items.map((item) => (
-          <DropdownMenu key={item.title}>
-            <SidebarMenuItem>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-                  {item.title}{" "}
-                  <DotsThreeOutlineIcon className="ml-auto" />
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              {item.items?.length ? (
-                <DropdownMenuContent
-                  side={isMobile ? "bottom" : "right"}
-                  align={isMobile ? "end" : "start"}
-                  className="min-w-56 rounded-lg"
-                >
-                  {item.items.map((item) => (
-                    <DropdownMenuItem asChild key={item.title}>
-                      <a href={item.url}>{item.title}</a>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              ) : null}
-            </SidebarMenuItem>
-          </DropdownMenu>
-        ))}
-      </SidebarMenu>
-    </SidebarGroup>
-  )
 }
 </file>
 
@@ -736,159 +307,6 @@ function Ripple({ className, ...props }: React.ComponentProps<"svg">) {
 }
 
 export { Ripple };
-</file>
-
-<file path="components/sidebar-opt-in-form.tsx">
-import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { SidebarInput } from "@/components/ui/sidebar"
-
-export function SidebarOptInForm() {
-  return (
-    <Card className="gap-2 py-4 shadow-none">
-      <CardHeader className="px-4">
-        <CardTitle className="text-sm">Subscribe to our newsletter</CardTitle>
-        <CardDescription>
-          Opt-in to receive updates and news about the sidebar.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="px-4">
-        <form>
-          <div className="grid gap-2.5">
-            <SidebarInput type="email" placeholder="Email" />
-            <Button className="w-full bg-sidebar-primary text-sidebar-primary-foreground shadow-none">
-              Subscribe
-            </Button>
-          </div>
-        </form>
-      </CardContent>
-    </Card>
-  )
-}
-</file>
-
-<file path="components/signup-form.tsx">
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-  FieldSeparator,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { supabase } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
-
-export function SignupForm({
-  className,
-  ...props
-}: React.ComponentProps<"form">) {
-  const router = useRouter();
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
-    const dummyEmail = `${username}@nexus.local`;
-    const { data, error } = await supabase.auth.signUp({
-      email: dummyEmail,
-      password: password,
-    });
-
-    if (password !== confirmPassword) {
-      setError("Password dan Confirm Password tidak cocok!");
-      setLoading(false);
-      return;
-    }
-
-    if (error) {
-      setError("Terjadi kesalahan saat membuat akun!");
-      setLoading(false);
-      return;
-    }
-
-    if (data.user) {
-      router.push("/login");
-    }
-  };
-
-  return (
-    <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={handleSignup}>
-      <FieldGroup>
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h1 className="text-2xl font-bold">Create your account</h1>
-          <p className="text-sm text-balance text-muted-foreground">
-            Fill in the form below to create your account
-          </p>
-        </div>
-        <Field>
-          <FieldLabel htmlFor="username">Username</FieldLabel>
-          <Input
-            id="username"
-            type="text"
-            placeholder="Username"
-            required
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="bg-background"
-          />
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
-          <Input
-            id="password"
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="bg-background"
-          />
-          <FieldDescription>
-            Must be at least 8 characters long.
-          </FieldDescription>
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
-          <Input
-            id="confirm-password"
-            type="password"
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="bg-background"
-          />
-          <FieldDescription>Please confirm your password.</FieldDescription>
-        </Field>
-        <Field>
-          <Button type="submit" disabled={loading}>
-            {loading ? "Signing up..." : "Sign up"}
-          </Button>
-        </Field>
-        <Field>
-          <FieldDescription className="px-6 text-center">
-            Already have an account? <a href="/login">Sign in</a>
-          </FieldDescription>
-        </Field>
-      </FieldGroup>
-    </form>
-  );
-}
 </file>
 
 <file path="components/theme-provider.tsx">
@@ -2843,15 +2261,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 </file>
 
-<file path="next.config.ts">
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-};
-
-export default nextConfig;
-</file>
-
 <file path="postcss.config.mjs">
 const config = {
   plugins: {
@@ -3089,6 +2498,558 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
     @apply font-mono;
   }
 }
+</file>
+
+<file path="app/login/page.tsx">
+"use client";
+
+import { LoginForm } from "@/components/login-form"
+import { RowsIcon } from "@phosphor-icons/react"
+import Image from "next/image"
+
+export default function LoginPage() {
+  return (
+    <div className="flex flex-col min-h-svh p-6 md:p-10">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <a href="/login" className="flex items-center gap-2 font-medium">
+            <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <RowsIcon className="size-4" />
+            </div>
+            Acme Inc.
+          </a>
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          <div className="w-full max-w-xs">
+            <LoginForm />
+          </div>
+        </div>
+    </div>
+  )
+}
+</file>
+
+<file path="app/signup/page.tsx">
+"use client"
+
+import { SignupForm } from "@/components/signup-form"
+import { RowsIcon } from "@phosphor-icons/react"
+import Image from "next/image"
+
+export default function SignupPage() {
+  return (
+    <div className="flex flex-col min-h-svh p-6 md:p-10">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <a href="#" className="flex items-center gap-2 font-medium">
+            <div className="flex size-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+              <RowsIcon className="size-4" />
+            </div>
+            Acme Inc.
+          </a>
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          <div className="w-full max-w-xs">
+            <SignupForm />
+          </div>
+        </div>
+    </div>
+  )
+}
+</file>
+
+<file path="components/app-sidebar.tsx">
+"use client";
+
+import * as React from "react";
+
+import { NavMain } from "@/components/nav-main";
+import { SidebarLogoutButton } from "@/components/sidebar-opt-in-form";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarRail,
+} from "@/components/ui/sidebar";
+import { RowsIcon } from "@phosphor-icons/react";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import { ModeToggle } from "./theme-toggle";
+
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleLogout = async () => {
+    setIsLoading(true);
+    try {
+      // Eksekusi fungsi signOut dari Supabase
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+
+      // Refresh halaman untuk mereset middleware/server state, lalu arahkan ke login
+      router.refresh();
+      router.push("/login");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Gagal melakukan log out:", error.message);
+      }
+      setIsLoading(false);
+    }
+  };
+
+  const data = {
+    navMain: [
+      {
+        title: "Contents",
+        url: "#",
+        items: [
+          {
+            title: "File Manager",
+            url: "#",
+          },
+          {
+            title: "GPIO Control",
+            url: "#",
+          },
+        ],
+      },
+      {
+        title: "Account",
+        url: "#",
+        items: [
+          {
+            title: "Reset Password",
+            url: "#",
+          },
+          {
+            title: "Log Out",
+            onClick: handleLogout,
+          },
+        ],
+      },
+    ],
+  };
+  return (
+    <Sidebar {...props}>
+      <SidebarHeader>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton size="lg" asChild>
+              <a href="/dashboard">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+                  <RowsIcon className="size-4" />
+                </div>
+                <div className="flex flex-col gap-0.5 leading-none">
+                  <span className="font-large">Nexus Vault</span>
+                  <span className="">Beta</span>
+                </div>
+              </a>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarHeader>
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+      </SidebarContent>
+      <SidebarFooter>
+        <div className="p-1">
+          <ModeToggle />
+        </div>
+      </SidebarFooter>
+      <SidebarRail />
+    </Sidebar>
+  );
+}
+</file>
+
+<file path="components/login-form.tsx">
+// "use client";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+// import bcrypt from "bcrypt";
+import { hashedPassword } from "@/app/api/login";
+
+export function LoginForm({
+  className,
+  ...props
+}: React.ComponentProps<"form">) {
+  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hashedPasswordValue, setHashedPasswordValue] = useState("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    // setHashedPasswordValue(await hashedPassword(password));
+
+    const dummyEmail = `${username}@nexus.local`;
+    const {data, error} = await supabase.auth.signInWithPassword({
+      email: dummyEmail,
+      // password: hashedPasswordValue,
+      password: password,
+    });
+
+    if(error) {
+      setError("Username atau Password salah!");
+      setLoading(false);
+      return;
+    }
+
+    if(data.user) {
+      router.push("/dashboard");
+    }
+  }
+
+  return (
+    <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={handleLogin}>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <h1 className="text-2xl font-bold">Login to your account</h1>
+          <p className="text-sm text-balance text-muted-foreground">
+            Enter your Username below to login to your account
+          </p>
+        </div>
+
+        {error && (
+          <div className="text-sm font-medium text-red-500 bg-red-500/10 p-2 rounded">
+            {error}
+          </div>
+        )}
+        
+        <Field>
+          <FieldLabel htmlFor="username">Username</FieldLabel>
+          <Input
+            id="username"
+            type="text"
+            placeholder="Username"
+            required
+            className="bg-background"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </Field>
+        <Field>
+          <div className="flex items-center">
+            <FieldLabel htmlFor="password">Password</FieldLabel>
+            <a
+              href="#"
+              className="ml-auto text-sm underline-offset-4 hover:underline"
+            >
+              Forgot your password?
+            </a>
+          </div>
+          <Input
+            id="password"
+            type="password"
+            required
+            className="bg-background"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Field>
+        <Field>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Authenticating..." : "Login"}
+          </Button>
+        </Field>
+        
+        <Field>
+          <FieldDescription className="text-center">
+            Don&apos;t have an account?{" "}
+            <a href="/signup" className="underline underline-offset-4">
+              Sign up
+            </a>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
+    </form>
+  );
+}
+</file>
+
+<file path="components/nav-main.tsx">
+"use client";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  SidebarGroup,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from "@/components/ui/sidebar";
+import { DotsThreeOutlineIcon } from "@phosphor-icons/react";
+
+export function NavMain({
+  items,
+}: {
+  items: {
+    title: string;
+    url: string;
+    icon?: React.ReactNode;
+    isActive?: boolean;
+    items?: {
+      title: string;
+      url?: string;
+      onClick?: () => void;
+    }[];
+  }[];
+}) {
+  const { isMobile } = useSidebar();
+
+  return (
+    <SidebarGroup>
+      <SidebarMenu>
+        {items.map((item) => (
+          <DropdownMenu key={item.title}>
+            <SidebarMenuItem>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
+                  {item.title} <DotsThreeOutlineIcon className="ml-auto" />
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              {item.items?.length ? (
+                <DropdownMenuContent
+                  side={isMobile ? "bottom" : "right"}
+                  align={isMobile ? "end" : "start"}
+                  className="min-w-56 rounded-lg"
+                >
+                  {item.items.map((subItem) =>
+                    // Cek apakah item memiliki fungsi onClick
+                    subItem.onClick ? (
+                      <DropdownMenuItem
+                        key={subItem.title}
+                        onClick={subItem.onClick}
+                        className="cursor-pointer text-destructive focus:bg-destructive/10 focus:text-destructive" // Efek merah saat di-hover
+                      >
+                        <span>{subItem.title}</span>
+                      </DropdownMenuItem>
+                    ) : (
+                      <DropdownMenuItem asChild key={subItem.title}>
+                        <a href={subItem.url}>{subItem.title}</a>
+                      </DropdownMenuItem>
+                    ),
+                  )}
+                </DropdownMenuContent>
+              ) : null}
+            </SidebarMenuItem>
+          </DropdownMenu>
+        ))}
+      </SidebarMenu>
+    </SidebarGroup>
+  );
+}
+</file>
+
+<file path="components/sidebar-opt-in-form.tsx">
+"use client"
+
+import * as React from "react"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { SignOutIcon } from "@phosphor-icons/react"
+import { supabase } from "@/lib/supabase" // Pastikan path helper supabase Anda sudah benar
+
+export function SidebarLogoutButton() {
+  const router = useRouter()
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  const handleLogout = async () => {
+    setIsLoading(true)
+    try {
+      // Eksekusi fungsi signOut dari Supabase
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+
+      // Refresh halaman untuk mereset middleware/server state, lalu arahkan ke login
+      router.refresh()
+      router.push("/login")
+    } catch (error: unknown) {
+      console.error("Gagal melakukan log out:", (error as Error).message)
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <Card className="gap-2 py-4 shadow-none border-sidebar-border bg-sidebar-background">
+      <CardHeader className="px-4 py-0 pb-2">
+        <CardTitle className="text-sm font-medium">Sesi Aplikasi</CardTitle>
+        <CardDescription className="text-xs text-muted-foreground">
+          Keluar dari sistem NexusVault secara aman.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="px-4 py-0 pt-2">
+        <Button 
+          variant="destructive"
+          className="w-full gap-2 shadow-none text-white bg-destructive hover:bg-destructive/90"
+          onClick={handleLogout}
+          disabled={isLoading}
+        >
+          <SignOutIcon className="size-4" />
+          <span>{isLoading ? "Keluar..." : "Log Out"}</span>
+        </Button>
+      </CardContent>
+    </Card>
+  )
+}
+</file>
+
+<file path="components/signup-form.tsx">
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+} from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { supabase } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+
+export function SignupForm({
+  className,
+  ...props
+}: React.ComponentProps<"form">) {
+  const router = useRouter();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const dummyEmail = `${username}@nexus.local`;
+    const { data, error } = await supabase.auth.signUp({
+      email: dummyEmail,
+      password: password,
+    });
+
+    if (password !== confirmPassword) {
+      setError("Password dan Confirm Password tidak cocok!");
+      setLoading(false);
+      return;
+    }
+
+    if (error) {
+      setError("Terjadi kesalahan saat membuat akun!");
+      setLoading(false);
+      return;
+    }
+
+    if (data.user) {
+      router.push("/login");
+    }
+  };
+
+  return (
+    <form className={cn("flex flex-col gap-6", className)} {...props} onSubmit={handleSignup}>
+      <FieldGroup>
+        <div className="flex flex-col items-center gap-1 text-center">
+          <h1 className="text-2xl font-bold">Create your account</h1>
+          <p className="text-sm text-balance text-muted-foreground">
+            Fill in the form below to create your account
+          </p>
+        </div>
+        <Field>
+          <FieldLabel htmlFor="username">Username</FieldLabel>
+          <Input
+            id="username"
+            type="text"
+            placeholder="Username"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="bg-background"
+          />
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <Input
+            id="password"
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="bg-background"
+          />
+          <FieldDescription>
+            Must be at least 8 characters long.
+          </FieldDescription>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="confirm-password">Confirm Password</FieldLabel>
+          <Input
+            id="confirm-password"
+            type="password"
+            required
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="bg-background"
+          />
+          <FieldDescription>Please confirm your password.</FieldDescription>
+        </Field>
+        <Field>
+          <Button type="submit" disabled={loading}>
+            {loading ? "Signing up..." : "Sign up"}
+          </Button>
+        </Field>
+        <Field>
+          <FieldDescription className="px-6 text-center">
+            Already have an account? <a href="/login">Sign in</a>
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
+    </form>
+  );
+}
+</file>
+
+<file path="next.config.ts">
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+};
+
+export default nextConfig;
 </file>
 
 <file path="app/layout.tsx">

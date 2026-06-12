@@ -11,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { SignOutIcon } from "@phosphor-icons/react"
-import { supabase } from "@/lib/supabase" // Pastikan path helper supabase Anda sudah benar
+import { supabase } from "@/lib/supabase/client" // Pastikan path helper supabase Anda sudah benar
 
 export function SidebarLogoutButton() {
   const router = useRouter()

@@ -15,9 +15,11 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { RowsIcon } from "@phosphor-icons/react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { ModeToggle } from "./theme-toggle";
+
+const supabase = createClient();
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const router = useRouter();
